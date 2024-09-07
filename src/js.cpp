@@ -1,5 +1,5 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 using namespace std::literals;
 
@@ -10,9 +10,9 @@ void print_usage()
               << "      ./js extract cover.jpg out.txt\n";
 }
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
-    if (argc == 5 && argv[1] == "embed"sv )
+    if (argc == 5 && argv[1] == "embed"sv)
     {
         std::ifstream cover(argv[2], std::ios::binary);
         if (!cover)
@@ -35,7 +35,7 @@ int main(int argc, char** argv)
             return 1;
         }
     }
-    else if (argc == 4 && argv[1] == "extract"sv )
+    else if (argc == 4 && argv[1] == "extract"sv)
     {
         std::ifstream cover(argv[2], std::ios::binary);
         if (!cover)
