@@ -1,5 +1,11 @@
 #include <fstream>
 #include <iostream>
+#include <vector>
+
+#include <jpeglib.h>
+
+#include "jdct.hpp"
+#include "jsteg.hpp"
 
 using namespace std::literals;
 
@@ -14,41 +20,26 @@ int main(int argc, char **argv)
 {
     if (argc == 5 && argv[1] == "embed"sv)
     {
-        std::ifstream cover(argv[2], std::ios::binary);
-        if (!cover)
+        try
         {
-            std::cerr << "Could not open " << argv[2] << "\n";
-            return 1;
+            jpeg::jdct j(argv[2]);
+            jpeg::embed(j, argv[3], argv[4]);
         }
-
-        std::ifstream payload(argv[3], std::ios::binary);
-        if (!payload)
+        catch (std::runtime_error &e)
         {
-            std::cerr << "Could not open " << argv[3] << "\n";
-            return 1;
-        }
-
-        std::ofstream stego(argv[4], std::ios::binary);
-        if (!stego)
-        {
-            std::cerr << "Could not open " << argv[4] << "\n";
-            return 1;
+            std::cerr << e.what() << std::endl;
         }
     }
     else if (argc == 4 && argv[1] == "extract"sv)
     {
-        std::ifstream cover(argv[2], std::ios::binary);
-        if (!cover)
+        try
         {
-            std::cerr << "Could not open " << argv[2] << "\n";
-            return 1;
+            jpeg::jdct j(argv[2]);
+            jpeg::extract(j, argv[3]);
         }
-
-        std::ofstream out(argv[3], std::ios::binary);
-        if (!out)
+        catch (std::runtime_error &e)
         {
-            std::cerr << "Could not open " << argv[3] << "\n";
-            return 1;
+            std::cerr << e.what() << std::endl;
         }
     }
     else

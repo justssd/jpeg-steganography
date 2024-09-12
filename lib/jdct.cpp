@@ -63,4 +63,27 @@ jdct::~jdct()
     jpeg_destroy_decompress(&cinfo);
 }
 
+void jdct::write_to_file(const std::string &filename) const
+{
+    struct jpeg_compress_struct cinfo_;
+    struct jpeg_error_mgr jerr_;
+
+    FILE *out;
+    if ((out = fopen(filename.c_str(), "wb")) == NULL)
+    {
+        throw std::runtime_error(std::string("Could not open ") + filename);
+    }
+
+    cinfo_.err = jpeg_std_error(&jerr_);
+    jpeg_create_compress(&cinfo_);
+    jpeg_stdio_dest(&cinfo_, out);
+
+    jpeg_copy_critical_parameters((j_decompress_ptr)&cinfo, (j_compress_ptr)&cinfo_);
+    jpeg_write_coefficients((j_compress_ptr)&cinfo_, quantized_coeffs);
+
+    jpeg_finish_compress(&cinfo_);
+    jpeg_destroy_compress(&cinfo_);
+    fclose(out);
+}
+
 } // namespace jpeg

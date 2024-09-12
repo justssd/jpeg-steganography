@@ -18,6 +18,8 @@ class jdct
     JCOEF &operator()(int ci, JDIMENSION x, JDIMENSION y, JDIMENSION c);
     const JCOEF &operator()(int ci, JDIMENSION x, JDIMENSION y, JDIMENSION c) const;
 
+    void write_to_file(const std::string &filename) const;
+
     struct jpeg_decompress_struct cinfo;
     struct jpeg_error_mgr jerr;
     jvirt_barray_ptr *quantized_coeffs;
