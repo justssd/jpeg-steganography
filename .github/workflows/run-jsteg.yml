@@ -10,7 +10,7 @@ jobs:
     -  run: mkdir ${{github.workspace}}/../build
     -  run: cmake -B${{github.workspace}}/../build -S${{github.workspace}}
     -  run: cmake --build ${{github.workspace}}/../build
-    -  run: ${{github.workspace}}/../build/js embed ${{github.workspace}}/../data/cat.jpg ${{github.workspace}}/../data/lorem.txt ${{github.workspace}}/../data/cat-out.jpg
+    -  run: ${{github.workspace}}/../build/js embed ${{github.workspace}}/data/cat.jpg ${{github.workspace}}/data/lorem.txt ${{github.workspace}}/data/cat-out.jpg
     - name: Commit cat-out.jpg
       run: |
         git config --global user.name "SDS"
