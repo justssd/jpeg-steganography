@@ -1,4 +1,5 @@
 #include <filesystem>
+#include <format>
 #include <fstream>
 #include <iostream>
 #include <string_view>
@@ -43,18 +44,25 @@ void embed(jpeg::jdct &j, const std::string &payload, const std::string &out)
             {
                 for (JDIMENSION c = 0; c < DCTSIZE2; ++c)
                 {
+                    JCOEF coefficient = j(ci, x, y, c);
+                    // Using zero would increase distortion and image size.
+                    if (coefficient == 0 || coefficient == 1)
+                        continue;
+
                     if (count >= data.size())
                     {
                         goto write;
                     }
+
                     int bit = data.at(count++) ? 1 : 0;
-                    j(ci, x, y, c) = (j(ci, x, y, c) & ~1) | bit;
+                    j(ci, x, y, c) = (coefficient & ~1) | bit;
                 }
             }
         }
     }
 write:
     j.write_to_file(out);
+    std::cout << std::format("{}/{} bytes embedded.\n", count / 8, data.size() / 8);
 }
 
 void extract(const jpeg::jdct &j, const std::string &out)
@@ -75,7 +83,12 @@ void extract(const jpeg::jdct &j, const std::string &out)
             {
                 for (JDIMENSION c = 0; c < DCTSIZE2; ++c)
                 {
-                    bool bit = j(ci, x, y, c) & 1;
+                    JCOEF coefficient = j(ci, x, y, c);
+                    // Using zero would increase distortion and image size.
+                    if ((coefficient == 0) || (coefficient == 1))
+                        continue;
+
+                    bool bit = coefficient & 1;
                     ++read_count;
                     if (read_count <= 32)
                     {
