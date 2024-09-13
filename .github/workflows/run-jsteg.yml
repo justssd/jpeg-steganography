@@ -11,3 +11,9 @@ jobs:
     -  run: cmake -B${{github.workspace}}/../build -S${{github.workspace}}
     -  run: cmake --build ${{github.workspace}}/../build
     -  run: ${{github.workspace}}/../build/js embed ${{github.workspace}}/../data/cat.jpg ${{github.workspace}}/../data/lorem.txt ${{github.workspace}}/../data/cat-out.jpg
+    - name: Commit cat-out.jpg
+      run: |
+        git config --global user.name "SDS"
+        git config --global user.email "justssd@users.noreply.github.com"
+        git commit -am "ci: Update cat-out.jpg"
+        git push
