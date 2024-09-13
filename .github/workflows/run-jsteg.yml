@@ -1,11 +1,11 @@
+name: build
+
 on: [push]
 
 jobs:
   build:
-    name: Embed lorem.txt into cat.jpg
     runs-on: ubuntu-latest
     steps:
-    -  name: Embed lorem.txt into cat.jpg
     -  uses: actions/checkout@v4
     -  run: mkdir ${{github.workspace}}/../build
     -  run: cmake -B${{github.workspace}}/../build -S${{github.workspace}}
