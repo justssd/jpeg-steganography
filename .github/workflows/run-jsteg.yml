@@ -15,5 +15,5 @@ jobs:
       run: |
         git config --global user.name "SDS"
         git config --global user.email "justssd@users.noreply.github.com"
-        git commit -am "ci: Update cat-out.jpg"
+        git commit -Am "ci: Update cat-out.jpg"
         git push
