@@ -4,11 +4,14 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     -  uses: actions/checkout@v4
     -  run: mkdir ${{github.workspace}}/../build
     -  run: cmake -B${{github.workspace}}/../build -S${{github.workspace}}
+       env:
+        CC:     gcc-13
+        CXX:    g++-13
     -  run: cmake --build ${{github.workspace}}/../build
     -  run: ${{github.workspace}}/../build/js embed ${{github.workspace}}/data/cat.jpg ${{github.workspace}}/data/lorem.txt ${{github.workspace}}/data/cat-out.jpg
     - name: Commit cat-out.jpg
