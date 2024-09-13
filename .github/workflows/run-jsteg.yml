@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
     -  uses: actions/checkout@v4
+    -  run: sudo apt-get install libjpeg-dev
     -  run: mkdir ${{github.workspace}}/../build
     -  run: cmake -B${{github.workspace}}/../build -S${{github.workspace}}
        env:
